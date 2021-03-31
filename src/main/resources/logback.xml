@@ -1,0 +1,11 @@
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <withJansi>true</withJansi>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+    </encoder>
+  </appender>
+  <logger name="com.henryrowett.webcrawler" level="INFO"/>
+  <root level="INFO">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>
