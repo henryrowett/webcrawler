@@ -37,7 +37,7 @@ case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
       .void
       .whenA(depth.increment.value <= requiredDepth.value) >>
       repo.update(_ + webpage) >>
-      IO(println(s"Collected [Depth: $depth, Webpage: $webpage, Links: $links]"))
+      IO(println(s"Collected [Webpage: $webpage, Depth: $depth, Links: $links]"))
   }
 
   def processor(subdomain: String, requiredDepth: Depth): fs2.Stream[IO, Unit] =
