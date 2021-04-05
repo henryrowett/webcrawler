@@ -13,8 +13,8 @@ object Main extends IOApp {
       .flatMap { case (repo, queue) =>
         IOEngine(repo, queue)
           .init(
-            webpage = "https://google.com/",
-            subdomain = "https://google.com/",
+            webpage = "https://monzo.com/",
+            subdomain = "https://monzo.com/",
             requiredDepth = 2
           )
       }

@@ -10,7 +10,7 @@ lazy val webcralwer = (project in file("."))
     scalaVersion := "2.13.5",
     version := "1.0",
     scalafmtOnCompile := true,
-    libraryDependencies ++= http4s ++ fs2 ++ log4cats ++ jsoup,
+    libraryDependencies ++= http4s ++ fs2 ++ log4cats ++ logback ++ jsoup,
     libraryDependencies ++= Seq(
       "org.typelevel" %% "munit-cats-effect-3" % "1.0.1" % "test"
     ),
