@@ -1,110 +1,60 @@
 package com.webcrawler
 
-import java.io.File
-import java.nio.charset.StandardCharsets
+import cats.effect.IO
+import com.webcrawler.Main.resources
 
-import org.jsoup.Jsoup
-
-import scala.jdk.CollectionConverters._
+import scala.concurrent.duration._
 
 class EngineTest extends munit.CatsEffectSuite {
 
-  test("test getLinks parser") {
-    val links = Jsoup.parse(
-        new File("src/test/resources/test_html.html"),
-        StandardCharsets.UTF_8.toString,
-        "https://monzo.com/")
-      .select("a[href]")
-      .asScala
-      .toList
-      .map { e =>
-        val href = e.attr("href")
-        if (!(href.contains("http") || href.contains("https"))) {
-          Webpage(e.baseUri().concat(href.substring(1)))
+    test("Processing where no record exists") {
+      val webpage = Webpage("webpage")
+      val prog =
+        fs2.Stream
+          .resource(resources)
+          .flatMap { case (repo, queue) =>
+            val process: fs2.Stream[IO, Unit] =
+              IOEngine(repo, queue).init("webpage", "www.webpage.com", 10).metered(500.milliseconds)
+            val checkRepo: fs2.Stream[IO, Set[Webpage]] = fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
+            checkRepo.concurrently(process)
+          }
+          .compile
+          .toVector
+
+      prog.assertEquals(Vector(Set(webpage)))
+    }
+
+  test("No processing of duplicate records") {
+    val duplicateWebpage = Webpage("duplicate")
+    val prog =
+      fs2.Stream
+        .resource(resources)
+        .flatMap { case (repo, queue) =>
+          val process: fs2.Stream[IO, Unit] = fs2.Stream.eval(repo.update(_ + duplicateWebpage)) ++
+            IOEngine(repo, queue).init("duplicate", "www.duplicate.com", 10).metered(500.milliseconds)
+          val checkRepo: fs2.Stream[IO, Int] = fs2.Stream.eval(repo.get.map(_.size)).metered(1000.milliseconds)
+          checkRepo.concurrently(process)
         }
-        else Webpage(href)
-      }
-    assertEquals(links, expectedLinks)
+      .compile
+      .toVector
+
+    prog.assertEquals(Vector(1))
   }
 
-  val expectedLinks = List(
-    Webpage(
-    url = "https://monzo.com/"
-    ),
-    Webpage(
-      url = "https://monzo.com/"
-    ),
-    Webpage(
-      url = "https://monzo.com/"
-    ),
-    Webpage(
-      url = "https://monzo.com/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/business"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/current-account/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/monzo-plus/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/monzo-premium/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/business/"
-    ),
-    Webpage(
-      url = "https://monzo.com/features/joint-accounts/"
-    ),
-    Webpage(
-      url = "https://monzo.com/features/16-plus/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/savingwithmonzo/"
-    ),
-    Webpage(
-      url = "https://monzo.com/features/savings/"
-    ),
-    Webpage(
-      url = "https://monzo.com/isa"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/overdrafts/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/loans/"
-    ),
-    Webpage(
-      url = "https://monzo.com/blog/2019/11/12/what-are-unsecured-loans/"
-    ),
-    Webpage(
-      url = "https://monzo.com/features/travel/"
-    ),
-    Webpage(
-      url = "https://monzo.com/features/energy-switching/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/shared-tabs-more/"
-    ),
-    Webpage(
-      url = "https://monzo.com/community/making-monzo/"
-    ),
-    Webpage(
-      url = "https://monzo.com/help/"
-    ),
-    Webpage(
-      url = "https://app.adjust.com/ydi27sn_9mq4ox7?engagement_type=fallback_click&fallback=https%3A%2F%2Fmonzo.com%2Fdownload&redirect_macos=https%3A%2F%2Fmonzo.com%2Fdownload"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/coronavirus-faq"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/monzo-premium/"
-    ),
-    Webpage(
-      url = "https://monzo.com/i/monzo-plus/"
-    )
-  )
+  test("Queue pulls correctly") {
+    val webpage = Webpage("webpage")
+    val prog =
+      fs2.Stream
+        .resource(resources)
+        .flatMap { case (repo, queue) =>
+          val process: fs2.Stream[IO, Unit] = fs2.Stream.eval(queue.offer(QueueRecord(webpage, Depth(1)))) ++
+            IOEngine(repo, queue).processor(subdomain = "webpage", requiredDepth = Depth(2))
+          val checkRepo: fs2.Stream[IO, Set[Webpage]] = fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
+          checkRepo.concurrently(process)
+        }
+        .compile
+        .toVector
+
+    prog.assertEquals(Vector(Set(webpage)))
+  }
 }
