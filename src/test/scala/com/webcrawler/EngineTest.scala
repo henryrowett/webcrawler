@@ -7,7 +7,7 @@ import scala.concurrent.duration._
 
 class EngineTest extends munit.CatsEffectSuite {
 
-  test("Processing where no record exists") {
+  test("init adds to queue") {
     val webpage = Webpage("webpage")
     val prog =
       fs2.Stream
@@ -47,20 +47,22 @@ class EngineTest extends munit.CatsEffectSuite {
 
   test("Queue pulls correctly") {
     val webpage = Webpage("webpage")
+    val webpage2 = Webpage("webpage2")
     val prog =
       fs2.Stream
         .resource(resources)
         .flatMap { case (repo, queue) =>
           val process: fs2.Stream[IO, Unit] =
             fs2.Stream.eval(queue.offer(QueueRecord(webpage, Depth(1)))) ++
+              fs2.Stream.eval(queue.offer(QueueRecord(webpage2, Depth(1)))) ++
               IOEngine(repo, queue).processor(subdomain = "webpage", requiredDepth = Depth(2))
           val checkRepo: fs2.Stream[IO, Set[Webpage]] =
-            fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
+            fs2.Stream.eval(repo.get.map(_.take(2))).metered(1000.milliseconds)
           checkRepo.concurrently(process)
         }
         .compile
         .toVector
 
-    prog.assertEquals(Vector(Set(webpage)))
+    prog.assertEquals(Vector(Set(webpage, webpage2)))
   }
 }
