@@ -7,22 +7,23 @@ import scala.concurrent.duration._
 
 class EngineTest extends munit.CatsEffectSuite {
 
-    test("Processing where no record exists") {
-      val webpage = Webpage("webpage")
-      val prog =
-        fs2.Stream
-          .resource(resources)
-          .flatMap { case (repo, queue) =>
-            val process: fs2.Stream[IO, Unit] =
-              IOEngine(repo, queue).init("webpage", "www.webpage.com", 10).metered(500.milliseconds)
-            val checkRepo: fs2.Stream[IO, Set[Webpage]] = fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
-            checkRepo.concurrently(process)
-          }
-          .compile
-          .toVector
+  test("Processing where no record exists") {
+    val webpage = Webpage("webpage")
+    val prog =
+      fs2.Stream
+        .resource(resources)
+        .flatMap { case (repo, queue) =>
+          val process: fs2.Stream[IO, Unit] =
+            IOEngine(repo, queue).init("webpage", "www.webpage.com", 10).metered(500.milliseconds)
+          val checkRepo: fs2.Stream[IO, Set[Webpage]] =
+            fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
+          checkRepo.concurrently(process)
+        }
+        .compile
+        .toVector
 
-      prog.assertEquals(Vector(Set(webpage)))
-    }
+    prog.assertEquals(Vector(Set(webpage)))
+  }
 
   test("No processing of duplicate records") {
     val duplicateWebpage = Webpage("duplicate")
@@ -31,12 +32,15 @@ class EngineTest extends munit.CatsEffectSuite {
         .resource(resources)
         .flatMap { case (repo, queue) =>
           val process: fs2.Stream[IO, Unit] = fs2.Stream.eval(repo.update(_ + duplicateWebpage)) ++
-            IOEngine(repo, queue).init("duplicate", "www.duplicate.com", 10).metered(500.milliseconds)
-          val checkRepo: fs2.Stream[IO, Int] = fs2.Stream.eval(repo.get.map(_.size)).metered(1000.milliseconds)
+            IOEngine(repo, queue)
+              .init("duplicate", "www.duplicate.com", 10)
+              .metered(500.milliseconds)
+          val checkRepo: fs2.Stream[IO, Int] =
+            fs2.Stream.eval(repo.get.map(_.size)).metered(1000.milliseconds)
           checkRepo.concurrently(process)
         }
-      .compile
-      .toVector
+        .compile
+        .toVector
 
     prog.assertEquals(Vector(1))
   }
@@ -47,9 +51,11 @@ class EngineTest extends munit.CatsEffectSuite {
       fs2.Stream
         .resource(resources)
         .flatMap { case (repo, queue) =>
-          val process: fs2.Stream[IO, Unit] = fs2.Stream.eval(queue.offer(QueueRecord(webpage, Depth(1)))) ++
-            IOEngine(repo, queue).processor(subdomain = "webpage", requiredDepth = Depth(2))
-          val checkRepo: fs2.Stream[IO, Set[Webpage]] = fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
+          val process: fs2.Stream[IO, Unit] =
+            fs2.Stream.eval(queue.offer(QueueRecord(webpage, Depth(1)))) ++
+              IOEngine(repo, queue).processor(subdomain = "webpage", requiredDepth = Depth(2))
+          val checkRepo: fs2.Stream[IO, Set[Webpage]] =
+            fs2.Stream.eval(repo.get.map(_.take(1))).metered(1000.milliseconds)
           checkRepo.concurrently(process)
         }
         .compile

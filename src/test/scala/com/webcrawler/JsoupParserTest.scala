@@ -10,10 +10,12 @@ import scala.jdk.CollectionConverters._
 class JsoupParserTest extends munit.CatsEffectSuite {
 
   test("test getLinks parser") {
-    val links = Jsoup.parse(
+    val links = Jsoup
+      .parse(
         new File("src/test/resources/test.html"),
         StandardCharsets.UTF_8.toString,
-        "https://monzo.com/")
+        "https://monzo.com/"
+      )
       .select("a[href]")
       .asScala
       .toList
@@ -25,7 +27,7 @@ class JsoupParserTest extends munit.CatsEffectSuite {
 
   val expectedLinks: List[Webpage] = List(
     Webpage(
-    value = "https://monzo.com/#"
+      value = "https://monzo.com/#"
     ),
     Webpage(
       value = "https://monzo.com/"
