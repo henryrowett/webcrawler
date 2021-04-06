@@ -12,10 +12,12 @@ object Main extends IOApp {
       .resource(resources)
       .flatMap { case (repo, queue) =>
         IOEngine(repo, queue)
+          // we can init with an increased numberOfConcurrentProcessors to enable greater concurrent processing
           .init(
             webpage = "https://monzo.com/",
             subdomain = "https://monzo.com/",
-            requiredDepth = 2
+            requiredDepth = 2,
+            numberOfConcurrentProcessors = 2
           )
       }
       .compile

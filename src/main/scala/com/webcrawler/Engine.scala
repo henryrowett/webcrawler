@@ -9,28 +9,45 @@ import org.typelevel.log4cats.slf4j.Slf4jLogger
 import scala.jdk.CollectionConverters._
 
 trait Engine[F[_]] {
-  def init(webpage: String, subdomain: String, requiredDepth: Integer): fs2.Stream[F, Unit]
+  def init(
+      webpage: String,
+      subdomain: String,
+      requiredDepth: Integer,
+      numberOfConcurrentProcessors: Integer = 5
+  ): fs2.Stream[F, Unit]
 }
 
 /** cats.effect.IO implementation of Engine.
   * This implementation uses Ref and Queue from cats effect
-  * which are functional, concurrent data structures.
+  * which are concurrent data structures.
   */
 case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) extends Engine[IO] {
 
   implicit val log = Slf4jLogger.getLogger[IO]
 
-  def init(webpage: String, subdomain: String, requiredDepth: Integer): fs2.Stream[IO, Unit] =
+  def init(
+      webpage: String,
+      subdomain: String,
+      requiredDepth: Integer,
+      numberOfConcurrentProcessors: Integer = 5
+  ): fs2.Stream[IO, Unit] =
     fs2
       .Stream(
         fs2.Stream.eval(queue.offer(QueueRecord(Webpage(webpage), Depth(0)))),
-        // we can add more processor streams to enable greater concurrent processing.
-        // However with too many streams there is some potential for reads/writes
-        // to begin blocking and we can sometimes see duplicate records being processed.
-        processor(subdomain, Depth(requiredDepth)),
-        processor(subdomain, Depth(requiredDepth))
+        processingEngines(subdomain, requiredDepth, numberOfConcurrentProcessors)
       )
-      .parJoin(2)
+      .parJoinUnbounded
+
+  private def processingEngines(
+      subdomain: String,
+      requiredDepth: Integer,
+      numberOfConcurrentProcessors: Integer
+  ) = {
+    fs2
+      .Stream(processor(subdomain, Depth(requiredDepth)))
+      .repeatN(numberOfConcurrentProcessors.toLong)
+      .parJoinUnbounded
+  }
 
   def crawl(webpage: Webpage, subdomain: String, depth: Depth, requiredDepth: Depth): IO[Unit] =
     getLinks(webpage, subdomain).flatMap { links =>
@@ -41,7 +58,7 @@ case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
         .whenA(depth.increment.value <= requiredDepth.value) >>
         repo.update(_ + webpage) >>
         log.info(s"Collected [Webpage: $webpage, Depth: $depth, Links: $links]")
-      }
+    }
 
   def processor(subdomain: String, requiredDepth: Depth): fs2.Stream[IO, Unit] =
     fs2.Stream
