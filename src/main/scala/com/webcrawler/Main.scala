@@ -11,8 +11,7 @@ object Main extends IOApp {
     fs2.Stream
       .resource(resources)
       .flatMap { case (repo, queue) =>
-        IOEngine(repo, queue)
-          // we can init with an increased numberOfConcurrentProcessors to enable greater concurrent processing
+        EngineIO(repo, queue)
           .init(
             webpage = "https://monzo.com/",
             subdomain = "https://monzo.com/",
@@ -28,15 +27,8 @@ object Main extends IOApp {
     (Repo.resource, Queue.resource).tupled
 }
 
-case class Webpage(value: String)
-
-case class Depth(value: Integer) {
-  def increment: Depth = Depth(value + 1)
-}
-
-case class QueueRecord(webpage: Webpage, depth: Depth)
-
-/** CatsQueue => A purely functional, concurrent data structure which allows insertion and
+/**
+  * CatsQueue => A purely functional, concurrent data structure which allows insertion and
   * retrieval of elements of type `A` in a first-in-first-out (FIFO) manner.
   */
 object Queue {
@@ -44,10 +36,18 @@ object Queue {
     Resource.eval(CatsQueue.unbounded[IO, QueueRecord])
 }
 
-/**  Prevent duplicate processing.
+/**
+  * Prevents duplicate processing.
   *  Ref => An asynchronous, concurrent mutable reference.
   */
 object Repo {
   val resource: Resource[IO, Ref[IO, Set[Webpage]]] =
     Resource.eval(Ref[IO].of(Set[Webpage]()))
 }
+
+case class Webpage(value: String)
+case class QueueRecord(webpage: Webpage, depth: Depth)
+case class Depth(value: Integer) {
+  def increment: Depth = Depth(value + 1)
+}
+

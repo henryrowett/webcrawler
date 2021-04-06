@@ -21,7 +21,7 @@ trait Engine[F[_]] {
   * This implementation uses Ref and Queue from cats effect
   * which are concurrent data structures.
   */
-case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) extends Engine[IO] {
+case class EngineIO(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) extends Engine[IO] {
 
   implicit val log = Slf4jLogger.getLogger[IO]
 
@@ -34,7 +34,7 @@ case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
     fs2
       .Stream(
         fs2.Stream.eval(queue.offer(QueueRecord(Webpage(webpage), Depth(0)))),
-        processingEngines(subdomain, requiredDepth, numberOfConcurrentProcessors)
+          processingEngines(subdomain, requiredDepth, numberOfConcurrentProcessors)
       )
       .parJoinUnbounded
 
@@ -49,17 +49,11 @@ case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
       .parJoinUnbounded
   }
 
-  def crawl(webpage: Webpage, subdomain: String, depth: Depth, requiredDepth: Depth): IO[Unit] =
-    getLinks(webpage, subdomain).flatMap { links =>
-      links
-        .map(w => queue.offer(QueueRecord(w, depth.increment)))
-        .sequence
-        .void
-        .whenA(depth.increment.value <= requiredDepth.value) >>
-        repo.update(_ + webpage) >>
-        log.info(s"Collected [Webpage: $webpage, Depth: $depth, Links: $links]")
-    }
-
+  /**
+    * Pulls from the queue and processes the link if
+    * it has not yet been processed.
+    * This can be updated to pull in chunks if required.
+    */
   def processor(subdomain: String, requiredDepth: Depth): fs2.Stream[IO, Unit] =
     fs2.Stream
       .fromQueueUnterminated(queue, 1) // this can be updated to process QueueRecords in chunks
@@ -69,12 +63,31 @@ case class IOEngine(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
             log.info(s"Processing $record") >>
               crawl(record.webpage, subdomain, record.depth, requiredDepth)
                 .handleErrorWith(e => log.info(e.getMessage))
-          }
-            .whenA(!set.contains(record.webpage))
+          }.whenA(!set.contains(record.webpage))
         }
       }
 
-  /** TODO - some links with a redirect that includes the subdomain appear here.
+  /**
+    * Adds valid links to the queue when the depth has not
+    * exceeded the required depth then adds the crawled link
+    * to the repo so it is not duplicated.
+    */
+  def crawl(webpage: Webpage, subdomain: String, depth: Depth, requiredDepth: Depth): IO[Unit] =
+  getLinks(webpage, subdomain).flatMap { links =>
+      links
+          .map(w => queue.offer(QueueRecord(w, depth.increment)))
+          .sequence
+          .void
+          .whenA(depth.increment.value <= requiredDepth.value) >>
+      repo.update(_ + webpage) >>
+      log.info(s"Collected [Webpage: $webpage, Depth: $depth, Links: $links]")
+    }
+
+
+  /**
+    * Grabs all valid links from the page and returns them.
+    * In some cases, if a link is a redirect to the specified
+    * domain then it can be included even if it isn't 'valid'.
     */
   def getLinks(webpage: Webpage, subdomain: String): IO[List[Webpage]] = {
     IO(
