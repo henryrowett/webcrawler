@@ -25,23 +25,25 @@ class EngineTest extends munit.CatsEffectSuite {
         .compile
         .toVector
 
+    // assert init queues and stores the record
     prog.assertEquals(Vector(Set(webpage)))
   }
 
   test("No processing of duplicate records") {
     val duplicateWebpage = Webpage("duplicate")
-    val duplicateWebpage2 = Webpage("duplicate2")
-    val duplicateWebpage3 = Webpage("duplicate3")
+    val webpage2 = Webpage("webpage2")
+    val webpage3 = Webpage("webpage3")
     val prog =
       fs2.Stream
         .resource(resources)
         .flatMap { case (repo, queue) =>
 
           val process: fs2.Stream[IO, Unit] =
-          // add webpage to repo
+          // add 3 webpages to the queue
             fs2.Stream.eval(queue.offer(QueueRecord(duplicateWebpage, Depth(1)))) ++
-              fs2.Stream.eval(queue.offer(QueueRecord(duplicateWebpage2, Depth(1)))) ++
-              fs2.Stream.eval(queue.offer(QueueRecord(duplicateWebpage3, Depth(1)))) ++
+              fs2.Stream.eval(queue.offer(QueueRecord(webpage2, Depth(1)))) ++
+              fs2.Stream.eval(queue.offer(QueueRecord(webpage3, Depth(1)))) ++
+          // init with a duplicate webpage which will be added to the queue but not processed
               EngineIO(repo, queue)
                 .init("duplicate", "www.duplicate.com", 10)
                 .metered(500.milliseconds)
@@ -54,6 +56,7 @@ class EngineTest extends munit.CatsEffectSuite {
         .compile
         .toVector
 
+    // assert only 3 records exist
     prog.assertEquals(Vector(3))
   }
 
@@ -81,6 +84,7 @@ class EngineTest extends munit.CatsEffectSuite {
         .compile
         .toVector
 
+    // assert all webpages are queued and stored
     prog.assertEquals(Vector(Set(webpage, webpage2, webpage3)))
   }
 }
