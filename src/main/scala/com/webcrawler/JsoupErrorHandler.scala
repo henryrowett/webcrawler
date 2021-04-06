@@ -6,7 +6,8 @@ import cats.effect.IO
 import org.jsoup.UnsupportedMimeTypeException
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 
-/** Basic error handling which could be
+/**
+  * Basic error handling which could be
   * expanded to handle errors/retries.
   */
 object JsoupErrorHandler {

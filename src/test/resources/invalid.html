@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="no-js " lang="en" dir="ltr">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'none'; prefetch-src 'none'; worker-src 'none'; object-src 'self'; font-src 'self'; connect-src 'self' https://internal-api.monzo.com https://api.monzo.com https://api.s101.nonprod-ffs.io https://www.google-analytics.com https://stats.g.doubleclick.net https://www.facebook.com https://sentry.io https://*.hotjar.com https://*.hotjar.io wss://*.hotjar.com; frame-src https://community.monzo.com https://*.twitter.com https://*.facebook.com https://connect.facebook.net https://player.vimeo.com https://www.google.com https://www.youtube.com https://*.hotjar.com https://tr.snapchat.com; img-src 'self' data: https://d33wubrfki0l68.cloudfront.net https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://www.facebook.com https://www.google-analytics.com https://www.googletagmanager.com https://*.twitter.com https://*.twimg.com https://i.ytimg.com https://www.gstatic.com/ https://sc-static.net https://images.ctfassets.net https://monzo-prod-user-images.imgix.net https://monzo-nonprod-user-images.imgix.net 'sha256-J2HqFRDzAAGNTqNjnsX6tergim4I/c6WKJmNhviNNO8=' 'sha256-f7aijx0PF9N4t1s8/B+uf9+G8Dy4gaq495+b+m6eZhY=' https://internal-api.monzo.com https://api.s101.nonprod-ffs.io; media-src 'self' https://d33wubrfki0l68.cloudfront.net; script-src 'self' https://community.monzo.com https://api.greenhouse.io https://platform.twitter.com https://cdn.syndication.twimg.com https://www.google-analytics.com https://static.ads-twitter.com https://connect.facebook.net https://staticxx.facebook.com https://api.greenhouse.io https://cdnjs.cloudflare.com 'sha256-ADovwU8QoCEdUMgkMeGNRGaW7PEPvqD7a8L5q4MMCu0=' 'sha256-VVrBltZ7o+qyhC5AAjObtZCo+DyFVPw4SRUDOA4Cgk4=' https://internal-api.monzo.com https://api.s101.nonprod-ffs.io https://sc-static.net https://*.hotjar.com 'sha256-vt7/04jLBKhnxSzTyEqyXkJOHM+oKb8p1YKAMFzAfTE=' 'sha256-ng53zOuOxN9hAB603HYOsIbfr+Qu0dAE58RmGb/eByc=' 'sha256-PLv+UVsHTJAuQItSr6LrtmNIUwlzlGV2T6gM178xGTw=' 'sha256-wfREorO1wUjAbNCATvi0oTxW04oyiBVS+IqMntYhD0c=' 'sha256-iZ2eYe0vf1Uea4jGtmkAZpfvB4OB+nqmwmbpQ9ucmnE=' 'sha256-35DtNfjnpyzqdkbePhY3V1EXS4Iwi95PqYMk0tzueao=' 'sha256-96UVBHvUjSIdevKTR6u/Yc5JHMUl7JzEUChF/DgLy2k=' 'sha256-SZ3v5+8SV+PA+fNmsNbGxuiV6O0rqcHHCGmNXVmF6sg=' 'sha256-Q7waEIqvXbWR+9ll6DuGNo7et7lwEB8qzibKYPW65Fo=' 'sha256-3cSThf2vG6yLPgvBUFlpJfiiYGIm0Oks6jK5DgsbCtA=' 'sha256-vznuUqRA9b6T9ihsGjMtdfgkmhpxBfg58n26zR6HLcw=' 'sha256-lYdRSo6A4amfC1T1YWkgVjrcGei8yAqoq8L4+GPX0sU=' 'sha256-aQVA0jgUwy0ui98PBEGspFH2a7ibKiCyal3H/NRAK98=' 'sha256-PYo8m04/FrYJxDWz6ayPQttt/cloHM94LDeQZNQPu50='; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://platform.twitter.com https://ton.twimg.com https://fonts.googleapis.com">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Monzo is a bank that makes life easier, not harder.">
+    <meta name="theme-color" content="#14233C">
+
+    <title>
+        Monzo
+        – Banking made easy
+    </title>
+
+    <link rel="canonical"  <!-- invalid html -->
+    <link rel="shortcut icon" href="/static/images/favicon.png">
+    <link rel="image_src" href="/static/images/mondo-mark-01.png">
+    <link rel="alternate" type="application/atom+xml" title="Monzo Blog" href="/feed.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Banking made easy">
+    <meta property="og:url" content="https://monzo.com/">
+    <meta property="og:description" content="Spend, save and manage your money, all in one place. Open a full UK bank account from your phone, for free.">
+    <meta property="og:image" content="https://monzo.com/static/images/home/hot-coral-card-render-OG.png">
+    <meta property="og:locale" content="en_GB">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@monzo">
+    <meta name="twitter:title" content="Banking made easy">
+    <meta name="twitter:description" content="Spend, save and manage your money, all in one place. Open a full UK bank account from your phone, for free.">
+    <meta name="twitter:image" content="https://monzo.com/static/images/home/hot-coral-card-render-OG.png">
+    <!-- This will disable some Twitter widget features, but the alternative is adding unsafe-inline to our content security policy -->
+    <meta name="twitter:widgets:csp" content="on">
+
+    <!-- Adding polyfills for browsers that do not support promise or fetch -->
+    <script type="application/javascript" integrity="sha256-vt7/04jLBKhnxSzTyEqyXkJOHM+oKb8p1YKAMFzAfTE=">
+        window.Promise || document.write('<script src="/static/vendor/promise-polyfill.min.js"><\/script>');
+        window.fetch || document.write('<script src="/static/vendor/fetch.umd.js"><\/script>');
+    </script>
+
+    <!-- Hotjar -->
+    <script src="/static/scripts/hotjar.js" async></script>
+
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/vendor/sweetalert.css">
+    <link rel="stylesheet" href="/static/css/style-attributes.css?1617205707596378225">
+
+    <link rel="preload" as="style" href="/static/css/monzo-framework.min.css?1617205707596378225">
+    <link rel="stylesheet" href="/static/css/monzo-framework.min.css?1617205707596378225">
+
+    <link rel="stylesheet" href="/static/css/home.css?1617205707596378225">
+
+    <link rel="stylesheet" href="/static/css/monzo-three.css?1617205707596378225">
+    <style type="text/css" integrity="sha256-YtzGJT28ZrqT2xSVWS3AFeMeYbc42w7tlCfZvVpTmhI="> @-webkit-keyframes swinging{
+                                                                                                0%{-webkit-transform: rotate(10deg);} 50%{-webkit-transform:
+                rotate(-5deg)} 100%{-webkit-transform: rotate(10deg);} } @keyframes
+                                                                         swinging{ 0%{transform: rotate(10deg);} 50%{transform: rotate(-5deg)}
+                                                                             100%{transform: rotate(10deg);} } .swingimage{ -webkit-transform-origin:
+            50% 0; transform-origin: 50% 0; -webkit-animation: swinging 3.5s
+    ease-in-out forwards infinite; animation: swinging 3.5s ease-in-out
+    forwards infinite; } </style>
+
+    <!-- Scripts -->
+    <script src="/static/vendor/jquery.min.js"></script>
+    <script src="/static/vendor/modernizr.min.js"></script>
+    <script src="/static/vendor/mobile-detect.min.js"></script>
+    <script src="/static/scripts/mobile-detect-modernizr.js"></script>
+    <script src="/static/vendor/sweetalert.min.js"></script>
+
+    <script type="application/javascript" src="/static/scripts/analytics.js?1617205707596378225"></script>
+
+    <script type="application/javascript" src="/static/scripts/analytics-snapchat-pixel.js?1617205707596378225"></script>
+
+</head>
+
+
+<body>
+
+<div class="u-display-none u-padding-top u-padding-bottom location-banner js-location-banner" aria-live="polite">
+    <div class="container location-banner__container">
+        <button class="o-button-base location-banner__dismiss js-dismiss-banner" aria-label="Dismiss the location switcher banner"><img src="/static/images/icons/close-white.svg" alt=""></button>
+        <div class="grid-row grid-row--middle">
+            <div class="grid-col-12 grid-col-6-md">
+                <p class="location-banner__text">Choose another country or region to see content specific to your location.</p>
+            </div>
+            <div class="grid-col-12 grid-col-6-md u-align-right-md">
+                <select class="location-banner__dropdown js-location-dropdown">
+                    <option value="GB">🇬🇧 United Kingdom</option>
+                    <option value="US" selected>🇺🇸 United States</option>
+                </select>
+                <a href="#" class="o-button-text-dark location-banner__confirm js-location-confirm">Continue</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<svg hidden>
+    <defs>
+        <symbol id="down-chevron" width="12" height="7" viewbox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.138.529a.667.667 0 0 0-.943.942L5.53 6.805c.26.26.682.26.942 0l5.334-5.334a.667.667 0 1 0-.943-.942L6 5.39 1.138.529z"></path>
+        </symbol>
+        <symbol id="menu-close" width="14" height="14" viewbox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+            <path d="M.293.293a1 1 0 0 1 1.414 0L7 5.585 12.293.293a1 1 0 0 1 1.32-.083l.094.083a1 1 0 0 1 0 1.414L8.415 7l5.292 5.293a1 1 0 0 1 .083 1.32l-.083.094a1 1 0 0 1-1.414 0L7 8.415l-5.293 5.292a1 1 0 0 1-1.32.083l-.094-.083a1 1 0 0 1 0-1.414L5.585 7 .293 1.707A1 1 0 0 1 .21.387z"></path>
+        </symbol>
+        <symbol id="menu-open" width="18" height="14" viewbox="0 0 18 14" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <path d="M16.5 11a1.5 1.5 0 0 1 0 3h-15a1.5 1.5 0 0 1 0-3h15zm0-5.5a1.5 1.5 0 0 1 0 3h-15a1.5 1.5 0 0 1 0-3h15zm0-5.5a1.5 1.5 0 0 1 0 3h-15a1.5 1.5 0 0 1 0-3h15z"></path>
+            </g>
+        </symbol>
+    </defs>
+</svg>
+
+<div class="mobile-navigation">
+    <div class="mobile-navigation__header">
+        <a href="/" class="mobile-navigation__logo">Monzo</a>
+        <button class="mobile-navigation__toggle js-open-main-navigation" aria-label="Open navigation" aria-expanded="false">
+            Menu
+            <svg width="18" height="14">
+                <use href="#menu-open" xlink:href="#menu-open"></use>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<header class="main-navigation js-main-navigation">
+    <div class="main-navigation__container container">
+        <div class="main-navigation__header rightPipe">
+            <a href="/" class="main-navigation__logo">Monzo</a>
+            <button class="main-navigation__toggle js-close-main-navigation" aria-label="Close navigation" aria-expanded="false">
+                <svg width="14" height="14">
+                    <use href="#menu-close" xlink:href="#menu-close"></use>
+                </svg>
+            </button>
+        </div>
+        <nav class="main-navigation__links-wrapper">
+            <ul class="main-navigation__links contextList">
+                <li class="main-navigation__links__item highlightedContext">
+                    <a href="/" class="main-navigation__links__link ">Personal</a>
+                </li>
+                <li class="main-navigation__links__item ">
+                    <a href="/i/business" class="main-navigation__links__link">Business</a>
+                </li>
+            </ul>
+            <hr class="separator">
+            <ul class="main-navigation__links">
+                <li class="main-navigation__links__item">
+                    <h3>
+                        <button class="main-navigation__links__link-toggle js-dropdown-toggle" aria-expanded="false">
+                            Accounts
+                            <span class="main-navigation__links__link__label">New</span>
+                        </button>
+                    </h3>
+                    <ul class="main-navigation__links__dropdown js-dropdown">
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/current-account/" class="main-navigation__links__link">Monzo Current Accounts</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/monzo-plus/" class="main-navigation__links__link">Monzo Plus Accounts</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/monzo-premium/" class="main-navigation__links__link">Monzo Premium Accounts<span class="newBadge" aria-hidden="true"></span></a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/business/" class="main-navigation__links__link">Monzo Business Accounts</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/features/joint-accounts/" class="main-navigation__links__link">Monzo Joint Accounts</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/features/16-plus/" class="main-navigation__links__link">Monzo 16 - 17 Accounts</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="main-navigation__links__item">
+                    <h3>
+                        <button class="main-navigation__links__link-toggle js-dropdown-toggle" aria-expanded="false">
+                            Savings
+                        </button>
+                    </h3>
+                    <ul class="main-navigation__links__dropdown js-dropdown">
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/savingwithmonzo/" class="main-navigation__links__link">Saving with Monzo</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/features/savings/" class="main-navigation__links__link">Interest Rates</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/isa" class="main-navigation__links__link">Cash ISAs</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="main-navigation__links__item">
+                    <h3>
+                        <button class="main-navigation__links__link-toggle js-dropdown-toggle" aria-expanded="false">
+                            Borrowing
+                        </button>
+                    </h3>
+                    <ul class="main-navigation__links__dropdown js-dropdown">
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/overdrafts/" class="main-navigation__links__link">Overdrafts</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/loans/" class="main-navigation__links__link">Loans</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/blog/2019/11/12/what-are-unsecured-loans/" class="main-navigation__links__link--footer">
+                                <img src="/static/images/icons/extra-borrowing-icon.svg" alt="" class="main-navigation__links__link__icon">
+                                What are unsecured loans?
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="main-navigation__links__item">
+                    <h3>
+                        <button class="main-navigation__links__link-toggle js-dropdown-toggle" aria-expanded="false">
+                            Features
+                        </button>
+                    </h3>
+                    <ul class="main-navigation__links__dropdown js-dropdown">
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/features/travel/" class="main-navigation__links__link">Travelling with Monzo</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/features/energy-switching/" class="main-navigation__links__link">Energy switching</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/i/shared-tabs-more/" class="main-navigation__links__link">Bill splitting</a>
+                        </li>
+                        <li class="main-navigation__links__dropdown__item">
+                            <a href="/community/making-monzo/" class="main-navigation__links__link--footer">
+                                <img src="/static/images/icons/extra-features-icon.svg" alt="" class="main-navigation__links__link__icon">
+                                Making Monzo
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="main-navigation__links__item">
+                    <a href="/help/" class="main-navigation__links__link">Help</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-navigation__footer">
+
+            <a href="https://app.adjust.com/ydi27sn_9mq4ox7?engagement_type=fallback_click&amp;fallback=https%3A%2F%2Fmonzo.com%2Fdownload&amp;redirect_macos=https%3A%2F%2Fmonzo.com%2Fdownload" data-analytics-category="conversion" data-analytics-action="download app" data-analytics-label="header" class="o-button">Sign up</a>
+
+        </div>
+    </div>
+</header>
+<script src="/static/scripts/navigation.js" async></script>
+
+
+
+
+<main id="main" class="main">
+    <a class="banner-link" href="/i/coronavirus-faq">Coronavirus help and support.<span class="banner-call-to-action">Find out more</span></a>
+
+    <!-- MONZO PREMIUM -->
+    <section class="strip home-premium-strip u-padding-top-none u-padding-bottom-none">
+        <div class="container">
+            <div class="grid-row grid-row--middle">
+                <div class="grid-col-12 grid-col-6-md">
+                    <div class="new-badge new-badge--premium u-margin-top-huge u-margin-top-none-md">
+                        <img class="new-badge__star-icon" src="/static/images/home/icons/star.svg" alt="">
+                        <p class="new-badge__text u-uppercase-text">Monzo Premium</p>
+                    </div>
+                    <h2 class="u-font-heading u-margin-top-normal">
+                        <span class="u-accessibility-text">Monzo Premium:</span> Banking that makes a statement
+                    </h2>
+                    <p class="u-font-copy u-margin-top-normal">
+                        Turn heads with our white metal card, made from steel. Enjoy peace of mind with extensive phone and travel insurance, interest and much more.
+                    </p>
+                    <a class="o-button call-to-action u-margin-top-medium" href="/i/monzo-premium/">
+                        Explore Monzo Premium
+                    </a>
+                </div>
+
+                <div class="grid-col-12 grid-col-5-md u-padding-top-large-md u-padding-bottom-large-md offset-col-1-md">
+                    <div class="u-padding-top-tiny-md image-container">
+                        <picture>
+                            <source media="(min-width: 650px)" srcset="/static/images/home/section-premium-device-card@3x.png">
+                            <source media="(min-width: 465px)" srcset="/static/images/home/section-premium-device-card@2x.png">
+                            <img src="/static/images/home/section-premium-device-card@1x.png" alt="">
+                            </source></source></picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MONZO PLUS -->
+    <section class="strip home-plus-strip u-padding-top-none u-padding-bottom-none">
+        <div class="container">
+            <div class="grid-row grid-row--middle grid-row--reverse">
+                <div class="grid-col-12 grid-col-6-md offset-col-1-md">
+                    <div class="new-badge new-badge--plus u-margin-top-huge u-margin-top-none-md">
+                        <img class="new-badge__star-icon" src="/static/images/home/icons/star.svg" alt="">
+                        <p class="new-badge__text u-uppercase-text">Monzo Plus</p>
+                    </div>
+                    <h2 class="u-font-heading u-margin-top-normal">
+                        <span class="u-accessibility-text">Monzo Plus</span> Put money in your hands
+                    </h2>
+                    <p class="u-font-copy u-margin-top-normal">
+                        Full financial visibility, with your other bank accounts and credit
+                        cards all in one place. Get interest on your money, personalised budgeting
+                        and much more.
+                    </p>
+                    <a class="o-button call-to-action u-margin-top-medium" href="/i/monzo-plus/">
+                        Explore Monzo Plus
+                    </a>
+                </div>
+
+                <div class="grid-col-12 grid-col-5-md u-padding-top-large-md u-padding-bottom-large-md">
+                    <div class="u-padding-top-tiny-md image-container">
+                        <picture>
+                            <source media="(min-width: 650px)" srcset="/static/images/home/section-plus-device-card@3x.png">
+                            <source media="(min-width: 465px)" srcset="/static/images/home/section-plus-device-card@2x.png">
+                            <img src="/static/images/home/section-plus-device-card@1x.png" alt="Monzo app with a Monzo Plus card">
+                            </source></source></picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/static/scripts/current-account-counter.js?1617205707596378225"></script>
+
+</main>
+
+<footer class="c-footer">
+    <div class="c-footer__disclaimer">
+        <div class="container">
+            <div class="grid-row">
+                <div class="grid-col-12">
+                    <ul class="o-inline-list">
+                        <li class="o-inline-list__item">
+                            Existing customers can get help via the app
+                        </li>
+                    </ul>
+                </div>
+                <div class="grid-col-12 grid-col-8-md u-padding-top-md">
+                    <p>
+                        Monzo Bank Limited is a company registered in England and Wales (No.
+                        09446231). Monzo Bank Ltd is authorised by the Prudential Regulation
+                        Authority (PRA) and regulated by the Financial Conduct Authority and
+                        the PRA. Our Financial Services Register number is 730427.
+                    </p>
+                    <img src="https://internal-api.monzo.com/static/fscs.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="/static/vendor/sentry.min.js"></script>
+<script type="application/javascript" integrity="sha256-PLv+UVsHTJAuQItSr6LrtmNIUwlzlGV2T6gM178xGTw=">var GIT_COMMIT = '343cbf5d6c494cfe195158d10b43c62ecaf6ed8f';
+var GIT_BRANCH = 'master';
+Sentry.init({
+    dsn: 'https://af042385e52a4bbeb38110405e88a21f@sentry.io/144332',
+    release: GIT_COMMIT,
+});
+Sentry.setTag('git_commit', GIT_COMMIT);
+Sentry.setTag('git_branch', GIT_BRANCH);
+</script><script type="text/javascript" src="/static/vendor/zepto.min.js"></script>
+<script type="text/javascript" src="/static/scripts/open-in-webview.js?1617205707596378225"></script>
+
+
+<!-- Libraries -->
+<script type="text/javascript" src="/static/scripts/utils.js?1617205707596378225"></script>
+<script type="text/javascript" src="/static/scripts/config.js?1617205707596378225"></script>
+<script type="text/javascript" src="/static/scripts/third-party/lytics.js?1617205707596378225"></script>
+<script type="text/javascript" src="/static/scripts/cookie-policy.js?1617205707596378225"></script>
+
+
+<!-- custom_js -->
+
+
+
+
+
+<script type="text/javascript" src="/static/scripts/homepage.js?1617205707596378225"></script>
+
+
+
+
+<script type="text/javascript" defer src="/static/scripts/main.js?1617205707596378225"></script>
+
+
+<!-- Facebook Pixel Code -->
+<script type="application/javascript" integrity="sha256-wfREorO1wUjAbNCATvi0oTxW04oyiBVS+IqMntYhD0c=">
+    function initializeFBTracking() {
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','https://connect.facebook.net/en_US/fbevents.js'); fbq('init',
+            '1442053056123622'); fbq('track', 'PageView');
+    }
+
+    var analyticsCookie = document.cookie.match(
+        '(^|;)\\s*' + '_cookie_analytics_accepted' + '\\s*=\\s*([^;]+)',
+    )
+    var analyticsCookieValue = analyticsCookie ? analyticsCookie.pop() : null
+
+    if (analyticsCookieValue === 'true') {
+        initializeFBTracking()
+    }
+
+    window.addEventListener('user_has_accepted_all_cookies', initializeFBTracking, false)
+</script>
+<noscript>
+    <img height="1" width="1" src="https://www.facebook.com/tr?id=1442053056123622&amp;ev=PageView&amp;noscript=1" alt="" class="s_6e22">
+</noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- Twitter Conversion Tracking -->
+<script defer src="https://platform.twitter.com/oct.js"></script>
+<!-- End Twitter Conversion Tracking -->
+
+<!-- Google Code for Remarketing Tag -->
+<!--
+ Remarketing tags may not be associated with personally identifiable information
+ or placed on pages related to sensitive categories. See more information and
+ instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+-->
+<script type="application/javascript" integrity="sha256-iZ2eYe0vf1Uea4jGtmkAZpfvB4OB+nqmwmbpQ9ucmnE="> /* <![CDATA[ */ var google_conversion_id = 863263319; var
+    google_custom_params = window.google_tag_params; var google_remarketing_only =
+    true; /* ]]> */ </script>
+<!-- <script defer src="https://www.googleadservices.com/pagead/conversion.js"></script> -->
+<noscript>
+    <div class="s_a915">
+        <img height="1" width="1" alt="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/863263319/?guid=ON&amp;script=0" class="s_3593">
+    </div>
+</noscript>
+<!-- End Google Code for Remarketing Tag -->
+
+
+
+<script type="application/javascript" integrity="sha256-35DtNfjnpyzqdkbePhY3V1EXS4Iwi95PqYMk0tzueao="> window.fbAsyncInit = function() { FB.init({ appId :
+        '1109810512370162', xfbml : true, version : 'v2.4' }); }; (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id; js.src =
+        "https://connect.facebook.net/en_US/sdk.js"; fjs.parentNode.insertBefore(js,
+        fjs); }(document, 'script', 'facebook-jssdk')); </script>
+
+<script type="text/javascript" defer src="https://internal-api.monzo.com/static/utils.js"></script>
+
+</body>
+</html>
