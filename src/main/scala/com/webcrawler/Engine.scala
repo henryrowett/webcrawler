@@ -54,7 +54,7 @@ case class EngineIO(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
     * it has not yet been processed.
     * This can be updated to pull in chunks if required.
     */
-  def processor(subdomain: String, requiredDepth: Depth): fs2.Stream[IO, Unit] =
+  private def processor(subdomain: String, requiredDepth: Depth): fs2.Stream[IO, Unit] =
     fs2.Stream
       .fromQueueUnterminated(queue, 1) // this can be updated to process QueueRecords in chunks
       .evalMap { record =>
@@ -72,7 +72,7 @@ case class EngineIO(repo: Ref[IO, Set[Webpage]], queue: Queue[IO, QueueRecord]) 
     * exceeded the required depth then adds the crawled link
     * to the repo so it is not duplicated.
     */
-  def crawl(webpage: Webpage, subdomain: String, depth: Depth, requiredDepth: Depth): IO[Unit] =
+  private def crawl(webpage: Webpage, subdomain: String, depth: Depth, requiredDepth: Depth): IO[Unit] =
   getLinks(webpage, subdomain).flatMap { links =>
       links
           .map(w => queue.offer(QueueRecord(w, depth.increment)))
