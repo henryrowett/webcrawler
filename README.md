@@ -1,5 +1,7 @@
 ### Scala Webcrawler
-This webcrawler is built using the newly released Cats Effect 3.0, fs2.Streams and JSoup.
+Webcrawler built for/during Monzo coding interview.
+
+The webcrawler is built using the Cats Effect 3.0, fs2.Streams and JSoup.
 
 ### Approach
 The webcralwer is built to crawl a webpage and all links found on that page on the same subdomain . This crawler is built to crawl ```n``` layers deep however the implementation provided allows a ```requiredDepth``` to be specified.
