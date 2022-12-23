@@ -1,6 +1,4 @@
 ### Scala Webcrawler
-Webcrawler built for/during Monzo coding interview.
-
 The webcrawler is built using the Cats Effect 3.0, fs2.Streams and JSoup.
 
 ### Approach
